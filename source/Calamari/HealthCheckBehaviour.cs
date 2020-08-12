@@ -38,10 +38,9 @@ namespace Calamari.AzureServiceFabric
             var connectionEndpoint = variables.Get(SpecialVariables.Action.ServiceFabric.ConnectionEndpoint);
             var securityMode = (AzureServiceFabricSecurityMode)Enum.Parse(typeof(AzureServiceFabricSecurityMode), variables.Get(SpecialVariables.Action.ServiceFabric.SecurityMode));
             var serverCertThumbprint = variables.Get(SpecialVariables.Action.ServiceFabric.ServerCertThumbprint);
-
             var clientCertVariable = variables.Get(SpecialVariables.Action.ServiceFabric.ClientCertVariable);
-
             var certificateStoreLocation = variables.Get(SpecialVariables.Action.ServiceFabric.CertificateStoreLocation);
+
             if (string.IsNullOrWhiteSpace(certificateStoreLocation))
                 certificateStoreLocation = StoreLocation.LocalMachine.ToString();
 
@@ -113,7 +112,7 @@ namespace Calamari.AzureServiceFabric
 
                 default:
                 {
-                    log.Info("Connecting unsecurely");
+                    log.Info("Connecting insecurely");
                     fabricClient = new FabricClient(connectionEndpoint);
                     break;
                 }
