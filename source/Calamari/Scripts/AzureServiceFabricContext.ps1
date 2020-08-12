@@ -1,9 +1,9 @@
-﻿﻿﻿## Octopus Azure Service Fabric Context script, version 1.0
+﻿## Octopus Azure Service Fabric Context script, version 1.0
 ## --------------------------------------------------------------------------------------
-## 
+##
 ## This script is used to establish a connection to the Azure Service Fabric cluster
 ##
-## The script is passed the following parameters. 
+## The script is passed the following parameters.
 ##
 ##   OctopusFabricTargetScript
 ##   OctopusFabricTargetScriptParameters
