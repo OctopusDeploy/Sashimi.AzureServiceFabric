@@ -1,6 +1,7 @@
-﻿﻿using Microsoft.Win32;
+﻿﻿﻿using System;
+ using Microsoft.Win32;
 
-namespace Calamari.AzureServiceFabric
+ namespace Calamari.AzureServiceFabric.Util
 {
     static class ServiceFabricHelper
     {
@@ -11,11 +12,17 @@ namespace Calamari.AzureServiceFabric
             using (var subKey = rootKey.OpenSubKey("SOFTWARE\\Microsoft\\Service Fabric SDK", false))
             {
                 if (subKey != null)
-                {
                     keyFound = true;
-                }
             }
             return keyFound;
         }
+    }
+
+    enum AzureServiceFabricSecurityMode
+    {
+        Unsecure,
+        SecureClientCertificate,
+        SecureAzureAD,
+        SecureAD,
     }
 }
