@@ -9,7 +9,6 @@
     <TargetFramework>net452</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Calamari.AzureScripting" Version="6.0.2" />
     <PackageReference Include="Calamari.Common" Version="14.8.0" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.2.8" />
     <PackageReference Include="Microsoft.ServiceFabric" Version="5.4.145" />
