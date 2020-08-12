@@ -20,7 +20,7 @@ namespace Calamari.AzureServiceFabric
 
         protected override IEnumerable<Assembly> GetProgramAssembliesToRegister()
         {
-            yield return typeof(AzureContextScriptWrapper).Assembly;
+            //yield return typeof(AzureContextScriptWrapper).Assembly;
             yield return typeof(Program).Assembly;
         }
     }
