@@ -28,16 +28,17 @@ using Sashimi.Server.Contracts.ServiceMessages;
                                             AzureServiceFabricServiceMessageNames.CreateTargetName,
                                             new Dictionary<string, FunctionParameter>
                                             {
-                                                { "name", new FunctionParameter(ParameterType.String) },
-                                                { "azureConnectionEndpoint", new FunctionParameter(ParameterType.String) },
-                                                { "azureSecurityMode", new FunctionParameter(ParameterType.String) },
-                                                { "azureCertificateThumbprint", new FunctionParameter(ParameterType.String) },
-                                                { "azureActiveDirectoryUsername", new FunctionParameter(ParameterType.String) },
-                                                { "certificateStoreLocation", new FunctionParameter(ParameterType.String) },
-                                                { "certificateStoreName", new FunctionParameter(ParameterType.String) },
-                                                { "octopusCertificateIdOrName", new FunctionParameter(ParameterType.String) },
-                                                { "octopusRoles", new FunctionParameter(ParameterType.String) },
-                                                { "updateIfExisting", new FunctionParameter(ParameterType.Bool) }
+                                                { AzureServiceFabricServiceMessageNames.NameAttribute, new FunctionParameter(ParameterType.String) },
+                                                { AzureServiceFabricServiceMessageNames.ConnectionEndpointAttribute, new FunctionParameter(ParameterType.String) },
+                                                { AzureServiceFabricServiceMessageNames.SecurityModeAttribute, new FunctionParameter(ParameterType.String) },
+                                                { AzureServiceFabricServiceMessageNames.CertificateThumbprintAttribute, new FunctionParameter(ParameterType.String) },
+                                                { AzureServiceFabricServiceMessageNames.ActiveDirectoryUsernameAttribute, new FunctionParameter(ParameterType.String) },
+                                                { AzureServiceFabricServiceMessageNames.ActiveDirectoryPasswordAttribute, new FunctionParameter(ParameterType.String) },
+                                                { AzureServiceFabricServiceMessageNames.CertificateStoreLocationAttribute, new FunctionParameter(ParameterType.String) },
+                                                { AzureServiceFabricServiceMessageNames.CertificateStoreNameAttribute, new FunctionParameter(ParameterType.String) },
+                                                { AzureServiceFabricServiceMessageNames.CertificateIdOrNameAttribute, new FunctionParameter(ParameterType.String) },
+                                                { AzureServiceFabricServiceMessageNames.RolesAttribute, new FunctionParameter(ParameterType.String) },
+                                                { AzureServiceFabricServiceMessageNames.UpdateIfExistingAttribute, new FunctionParameter(ParameterType.Bool) }
                                             })
          };
 
@@ -129,14 +130,17 @@ using Sashimi.Server.Contracts.ServiceMessages;
          internal static class AzureServiceFabricServiceMessageNames
          {
              public const string CreateTargetName = "create-azureservicefabrictarget";
-             public const string ConnectionEndpointAttribute = "connectionEndpoint";
-             public const string SecurityModeAttribute = "securityMode";
-             public const string CertificateThumbprintAttribute = "certificateThumbprint";
-             public const string CertificateIdOrNameAttribute = "certificate";
-             public const string ActiveDirectoryUsernameAttribute = "activeDirectoryUsername";
-             public const string ActiveDirectoryPasswordAttribute = "activeDirectoryPassword";
+             public const string NameAttribute = "name";
+             public const string ConnectionEndpointAttribute = "azureConnectionEndpoint";
+             public const string SecurityModeAttribute = "azureSecurityMode";
+             public const string CertificateThumbprintAttribute = "azureCertificateThumbprint";
+             public const string CertificateIdOrNameAttribute = "octopusCertificateIdOrName";
+             public const string ActiveDirectoryUsernameAttribute = "azureActiveDirectoryUsername";
+             public const string ActiveDirectoryPasswordAttribute = "azureActiveDirectoryPassword";
              public const string CertificateStoreLocationAttribute = "certificateStoreLocation";
              public const string CertificateStoreNameAttribute = "certificateStoreName";
+             public const string RolesAttribute = "octopusRoles";
+             public const string UpdateIfExistingAttribute = "updateIfExisting";
          }
      }
  }
