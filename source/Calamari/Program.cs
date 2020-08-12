@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using System.Threading.Tasks;
 using Calamari.Common;
 using Calamari.Common.Plumbing.Logging;
+using Calamari.Scripting;
 
 namespace Calamari.AzureServiceFabric
 {
@@ -8,6 +11,12 @@ namespace Calamari.AzureServiceFabric
     {
         public Program(ILog log) : base(log)
         {
+        }
+
+        protected override IEnumerable<Assembly> GetProgramAssembliesToRegister()
+        {
+            yield return typeof(RunScriptCommand).Assembly;
+            yield return typeof(Program).Assembly;
         }
 
         public static Task<int> Main(string[] args)
