@@ -20,7 +20,7 @@ namespace Calamari.AzureServiceFabric.Behaviours
 
         public bool IsEnabled(RunningDeployment context)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public Task Execute(RunningDeployment context)
