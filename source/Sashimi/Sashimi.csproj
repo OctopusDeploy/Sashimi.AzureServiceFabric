@@ -10,7 +10,9 @@
     <Nullable>enable</Nullable>
     <PackageProjectUrl>https://github.com/OctopusDeploy/Sashimi.AzureServiceFabric</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <NoDefaultExcludes>true</NoDefaultExcludes>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWarn>NU5119</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="**\*.ps1" />
