@@ -11,7 +11,7 @@ namespace Sashimi.AzureServiceFabric
     {
         public string Id => SpecialVariables.Action.ServiceFabric.ServiceFabricPowerShellActionTypeName;
         public string Name => "Run a Service Fabric SDK PowerShell Script";
-        public string Description => "Runs PowerShell using a Service Fabric cluster context.";
+        public string Description => "Runs PowerShell using a Service Fabric cluster context (Azure or on-prem).";
         public string? Keywords => null;
         public bool ShowInStepTemplatePickerUI => true;
         public bool WhenInAChildStepRunInTheContextOfTheTargetMachine => false;
