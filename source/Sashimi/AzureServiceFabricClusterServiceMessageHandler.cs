@@ -1,11 +1,11 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Octopus.Data.Model;
 using Octostache;
 using Sashimi.AzureServiceFabric.Endpoints;
- using Sashimi.Server.Contracts;
- using Sashimi.Server.Contracts.Accounts;
+using Sashimi.Server.Contracts;
+using Sashimi.Server.Contracts.Accounts;
 using Sashimi.Server.Contracts.Endpoints;
 using Sashimi.Server.Contracts.ServiceMessages;
 

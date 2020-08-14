@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using Calamari.AzureServiceFabric.Behaviours;
 using Calamari.Common.Commands;

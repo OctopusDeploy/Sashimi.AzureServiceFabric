@@ -1,4 +1,4 @@
-﻿﻿#nullable disable
+﻿#nullable disable
 using Octopus.Data.Resources;
 using Octopus.Data.Resources.Attributes;
 using Sashimi.Server.Contracts.Endpoints;

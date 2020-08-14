@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,14 +18,16 @@ namespace Calamari.AzureServiceFabric.Integration
         readonly ICalamariFileSystem fileSystem;
         readonly ICalamariEmbeddedResources embeddedResources;
         readonly IVariables variables;
+        readonly ILog log;
 
         readonly ScriptSyntax[] supportedScriptSyntax = {ScriptSyntax.PowerShell};
 
-        public AzureServiceFabricPowerShellContext(IVariables variables)
+        public AzureServiceFabricPowerShellContext(IVariables variables, ILog log)
         {
-            this.fileSystem = new WindowsPhysicalFileSystem();
-            this.embeddedResources = new AssemblyEmbeddedResources();
+            fileSystem = new WindowsPhysicalFileSystem();
+            embeddedResources = new AssemblyEmbeddedResources();
             this.variables = variables;
+            this.log = log;
         }
 
         public int Priority => ScriptWrapperPriorities.CloudAuthenticationPriority;
@@ -56,30 +58,30 @@ namespace Calamari.AzureServiceFabric.Integration
             variables.Set("OctopusFabricTargetScriptParameters", script.Parameters);
 
             // Azure PS modules are required for looking up Azure environments (needed for AAD url lookup in Service Fabric world).
-            SetAzureModulesLoadingMethod(variables);
+            SetAzureModulesLoadingMethod();
 
             // Read thumbprint from our client cert variable (if applicable).
             var securityMode = variables.Get(SpecialVariables.Action.ServiceFabric.SecurityMode);
             var clientCertThumbprint = string.Empty;
             if (securityMode == Util.AzureServiceFabricSecurityMode.SecureClientCertificate.ToString())
             {
-                var certificateVariable = GetMandatoryVariable(variables, SpecialVariables.Action.ServiceFabric.ClientCertVariable);
+                var certificateVariable = GetMandatoryVariable(SpecialVariables.Action.ServiceFabric.ClientCertVariable);
                 clientCertThumbprint = variables.Get($"{certificateVariable}.{CertificateVariables.Properties.Thumbprint}");
             }
 
             // Set output variables for our script to access.
-            SetOutputVariable("OctopusFabricConnectionEndpoint", variables.Get(SpecialVariables.Action.ServiceFabric.ConnectionEndpoint), variables);
-            SetOutputVariable("OctopusFabricSecurityMode", variables.Get(SpecialVariables.Action.ServiceFabric.SecurityMode), variables);
-            SetOutputVariable("OctopusFabricServerCertThumbprint", variables.Get(SpecialVariables.Action.ServiceFabric.ServerCertThumbprint), variables);
-            SetOutputVariable("OctopusFabricClientCertThumbprint", clientCertThumbprint, variables);
-            SetOutputVariable("OctopusFabricCertificateFindType", variables.Get(SpecialVariables.Action.ServiceFabric.CertificateFindType, "FindByThumbprint"), variables);
-            SetOutputVariable("OctopusFabricCertificateFindValueOverride", variables.Get(SpecialVariables.Action.ServiceFabric.CertificateFindValueOverride), variables);
-            SetOutputVariable("OctopusFabricCertificateStoreLocation", variables.Get(SpecialVariables.Action.ServiceFabric.CertificateStoreLocation, "LocalMachine"), variables);
-            SetOutputVariable("OctopusFabricCertificateStoreName", variables.Get(SpecialVariables.Action.ServiceFabric.CertificateStoreName, "MY"), variables);
-            SetOutputVariable("OctopusFabricAadCredentialType", variables.Get(SpecialVariables.Action.ServiceFabric.AadCredentialType), variables);
-            SetOutputVariable("OctopusFabricAadClientCredentialSecret", variables.Get(SpecialVariables.Action.ServiceFabric.AadClientCredentialSecret), variables);
-            SetOutputVariable("OctopusFabricAadUserCredentialUsername", variables.Get(SpecialVariables.Action.ServiceFabric.AadUserCredentialUsername), variables);
-            SetOutputVariable("OctopusFabricAadUserCredentialPassword", variables.Get(SpecialVariables.Action.ServiceFabric.AadUserCredentialPassword), variables);
+            SetOutputVariable("OctopusFabricConnectionEndpoint", variables.Get(SpecialVariables.Action.ServiceFabric.ConnectionEndpoint));
+            SetOutputVariable("OctopusFabricSecurityMode", variables.Get(SpecialVariables.Action.ServiceFabric.SecurityMode));
+            SetOutputVariable("OctopusFabricServerCertThumbprint", variables.Get(SpecialVariables.Action.ServiceFabric.ServerCertThumbprint));
+            SetOutputVariable("OctopusFabricClientCertThumbprint", clientCertThumbprint);
+            SetOutputVariable("OctopusFabricCertificateFindType", variables.Get(SpecialVariables.Action.ServiceFabric.CertificateFindType, "FindByThumbprint"));
+            SetOutputVariable("OctopusFabricCertificateFindValueOverride", variables.Get(SpecialVariables.Action.ServiceFabric.CertificateFindValueOverride));
+            SetOutputVariable("OctopusFabricCertificateStoreLocation", variables.Get(SpecialVariables.Action.ServiceFabric.CertificateStoreLocation, "LocalMachine"));
+            SetOutputVariable("OctopusFabricCertificateStoreName", variables.Get(SpecialVariables.Action.ServiceFabric.CertificateStoreName, "MY"));
+            SetOutputVariable("OctopusFabricAadCredentialType", variables.Get(SpecialVariables.Action.ServiceFabric.AadCredentialType));
+            SetOutputVariable("OctopusFabricAadClientCredentialSecret", variables.Get(SpecialVariables.Action.ServiceFabric.AadClientCredentialSecret));
+            SetOutputVariable("OctopusFabricAadUserCredentialUsername", variables.Get(SpecialVariables.Action.ServiceFabric.AadUserCredentialUsername));
+            SetOutputVariable("OctopusFabricAadUserCredentialPassword", variables.Get(SpecialVariables.Action.ServiceFabric.AadUserCredentialPassword));
 
             using (new TemporaryFile(Path.Combine(workingDirectory, "AzureProfile.json")))
             using (var contextScriptFile = new TemporaryFile(CreateContextScriptFile(workingDirectory)))
@@ -96,22 +98,22 @@ namespace Calamari.AzureServiceFabric.Integration
             return azureContextScriptFile;
         }
 
-        static void SetAzureModulesLoadingMethod(IVariables variables)
+        void SetAzureModulesLoadingMethod()
         {
             // We don't bundle the standard Azure PS module for Service Fabric work. We do however need
             // a certain Active Directory library that is bundled with Calamari.
-            SetOutputVariable("OctopusFabricActiveDirectoryLibraryPath", Path.GetDirectoryName(typeof(AzureServiceFabricPowerShellContext).Assembly.Location), variables);
+            SetOutputVariable("OctopusFabricActiveDirectoryLibraryPath", Path.GetDirectoryName(typeof(AzureServiceFabricPowerShellContext).Assembly.Location));
         }
 
-        static void SetOutputVariable(string name, string value, IVariables variables)
+        void SetOutputVariable(string name, string value)
         {
             if (variables.Get(name) != value)
             {
-                Log.SetOutputVariable(name, value, variables);
+                log.SetOutputVariable(name, value, variables);
             }
         }
 
-        string GetMandatoryVariable(IVariables variables, string variableName)
+        string GetMandatoryVariable(string variableName)
         {
             var value = variables.Get(variableName);
 

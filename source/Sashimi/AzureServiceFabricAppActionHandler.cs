@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using Octopus.CoreUtilities;
 using Sashimi.AzureScripting;
 using Sashimi.AzureServiceFabric.Endpoints;

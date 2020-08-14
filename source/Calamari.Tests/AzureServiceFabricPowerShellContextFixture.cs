@@ -1,5 +1,6 @@
 using Calamari.AzureServiceFabric.Integration;
 using Calamari.Common.Features.Scripts;
+using Calamari.Common.Plumbing.Logging;
 using Calamari.Common.Plumbing.Variables;
 using FluentAssertions;
 using NUnit.Framework;
@@ -19,7 +20,7 @@ namespace Calamari.AzureServiceFabric.Tests
             {
                 { SpecialVariables.Action.ServiceFabric.ConnectionEndpoint, connectionEndpoint }
             };
-            var target = new AzureServiceFabricPowerShellContext(variables);
+            var target = new AzureServiceFabricPowerShellContext(variables, ConsoleLog.Instance);
             var actual = target.IsEnabled(syntax);
             actual.Should().Be(expected);
 

@@ -1,7 +1,7 @@
-﻿﻿using System;
+﻿using System;
 using FluentValidation;
- using Sashimi.AzureServiceFabric.Endpoints;
- using Sashimi.Server.Contracts.ActionHandlers.Validation;
+using Sashimi.AzureServiceFabric.Endpoints;
+using Sashimi.Server.Contracts.ActionHandlers.Validation;
 
 namespace Sashimi.AzureServiceFabric
 {
