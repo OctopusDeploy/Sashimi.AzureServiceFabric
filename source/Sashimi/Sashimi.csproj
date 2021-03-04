@@ -30,5 +30,7 @@
     <PackageReference Include="Sashimi.Server.Contracts" Version="8.8.1-define-worker-im0004" />
     <PackageReference Include="Sashimi.AzureScripting" Version="9.2.0" />
     <PackageReference Include="Sashimi.Server.Contracts" Version="8.6.2" />
+    <PackageReference Include="Sashimi.AzureScripting" Version="10.0.1" />
+    <PackageReference Include="Sashimi.Server.Contracts" Version="8.6.0" />
   </ItemGroup>
 </Project>
