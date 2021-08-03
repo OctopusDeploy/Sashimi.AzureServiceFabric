@@ -48,8 +48,7 @@ using Sashimi.Server.Contracts.ServiceMessages;
                                        Func<string, string> accountIdResolver,
                                        Func<string, string> certificateIdResolver,
                                        Func<string, string> workerPoolIdResolver,
-                                       Func<string, AccountType> accountTypeResolver,
-                                       Func<string, string> feedIdResolver)
+                                       Func<string, AccountType> accountTypeResolver)
          {
              messageProperties.TryGetValue(AzureServiceFabricServiceMessageNames.ConnectionEndpointAttribute, out var connectionEndpoint);
              var azureServiceFabricClusterEndpoint = new AzureServiceFabricClusterEndpoint
